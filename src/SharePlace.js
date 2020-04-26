@@ -1,6 +1,5 @@
-/* eslint-disable require-jsdoc */
-/* eslint-disable linebreak-style */
-// eslint-disable-next-line require-jsdoc
+import {Modal} from './UI/Modal';
+
 class PlaceFinder {
   constructor() {
     const addressForm = document.querySelector('form');
@@ -15,13 +14,17 @@ class PlaceFinder {
       alert('feature not available in this browser');
       return;
     }
+    const modal = new Modal('loading-modal-content', 'loading location please wait.');
+    modal.show();
     navigator.geolocation.getCurrentPosition((successResult) => {
+      modal.hide();
       const coordinates = {
         lat: successResult.coords.latitude,
         lng: successResult.coords.longitude,
       };
       console.log(coordinates);
     }, (error) => {
+      modal.hide();
       alert('could not get current position, pleas enter manually');
     });
   }
